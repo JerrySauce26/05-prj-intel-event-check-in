@@ -16,18 +16,63 @@ form.addEventListener("submit", function (event) {
   count++;
   console.log("Total check-ins: " , count)
 
-  // Update progress bar
-  const percentage = Math.round((count / maxCount) * 100) + "%";
-  console.log(`Progress: ${percentage}`)
 
-  //Update team Counter
+
+  // Update progress bar smoothly
+  const percentage = Math.round((count / maxCount) * 100);
+  console.log(`Progress: ${percentage}%`);
+  const progressBar = document.getElementById("progressBar");
+  progressBar.style.width = `${percentage}%`;
+
+  // Update attendee count in span
+  const attendeeCountSpan = document.getElementById("attendeeCount");
+  attendeeCountSpan.textContent = count;
+
+
+  // Update team Counter
   const teamCounter = document.getElementById(team + "Count");
-  const current = parseInt(teamCounter.textContent);
   teamCounter.textContent = parseInt(teamCounter.textContent) + 1;
 
-  //Show welcome message 
-  const message = `Welcome, ${name} from ${teamName}!`;
-  console.log(message);
+  // Highlight the winning team
+  function highlightWinningTeam() {
+    const teams = ["water", "zero", "power"];
+    let max = 0;
+    let winners = [];
+    teams.forEach(function (t) {
+      const count = parseInt(document.getElementById(t + "Count").textContent);
+      if (count > max) {
+        max = count;
+        winners = [t];
+      } else if (count === max && max > 0) {
+        winners.push(t);
+      }
+    });
+    teams.forEach(function (t) {
+      const card = document.querySelector(".team-card." + t);
+      card.classList.remove("winner");
+    });
+    winners.forEach(function (t) {
+      const card = document.querySelector(".team-card." + t);
+      card.classList.add("winner");
+      // Remove and re-add for animation effect
+      setTimeout(function () {
+        card.classList.remove("winner");
+        void card.offsetWidth;
+        card.classList.add("winner");
+      }, 10);
+    });
+  }
+  highlightWinningTeam();
+
+
+  // Show welcome message visually above the form with emoji and fade-in effect
+  const greeting = document.getElementById("greeting");
+  greeting.innerHTML = `🎉 <b>Welcome, ${name} from ${teamName}!</b> Thank you for checking in!`;
+  greeting.classList.add("show");
+  // Remove the effect after a short time (optional, keeps it animated for new check-ins)
+  setTimeout(function () {
+    greeting.classList.remove("show");
+  }, 3500);
 
   form.reset();
   

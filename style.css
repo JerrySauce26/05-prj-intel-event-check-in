@@ -1,3 +1,28 @@
+/* Winning team highlight animation */
+.team-card.winner {
+  box-shadow: 0 0 0 4px #00bcd4, 0 8px 24px rgba(0, 188, 212, 0.15);
+  background: linear-gradient(90deg, #e0f7fa 0%, #b2ebf2 100%);
+  border: 2px solid #00bcd4;
+  animation: winner-flash 0.7s;
+}
+
+@keyframes winner-flash {
+  0% {
+    opacity: 0.7;
+    transform: scale(1.05);
+    filter: brightness(1.2);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.08);
+    filter: brightness(1.4);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
 /* Modern reset */
 * {
   margin: 0;
@@ -243,14 +268,27 @@ button .fas {
 }
 
 /* Messages */
+
 #greeting {
-  font-weight: 500;
-  font-size: 18px;
-  padding: 16px 20px;
-  border-radius: 8px;
-  color: #333;
-  margin-bottom: 15px;
+  font-weight: 700;
+  font-size: 20px;
+  padding: 18px 24px;
+  border-radius: 12px;
+  color: #003c71;
+  margin-bottom: 18px;
+  background: linear-gradient(90deg, #e0f7fa 0%, #b2ebf2 100%);
+  box-shadow: 0 4px 18px rgba(0, 113, 197, 0.10);
+  border: 2px solid #00bcd4;
   display: none;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+
+#greeting.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .success-message {
